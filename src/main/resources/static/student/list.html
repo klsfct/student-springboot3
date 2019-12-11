@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="utf-8" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+    <title>班级列表</title>  
+    <style> 
+    body{
+     text-align:center;
+    } 
+    table{
+     border-collapse:collapse;
+     margin:0 auto;
+    }
+    table,tr,td,th{
+     border:1px solid gray;
+    }
+    td{
+      padding:10px;
+    }
+       
+      
+    </style>  
+      <script src="/js/jquery-1.11.1.js"></script>
+<body>  
+<table>
+<thead>
+<tr><th>学号</th><th>姓名</th><th>性别</th><th>班级</th><th>修改</th><th>删除</th></tr>
+</thead>
+ <tbody id="tBody">
+ </tbody>
+  </table>
+ <a href="/student/add.html">添加学生</a>
+  <script>
+
+$.get("/student/list",function(studentList,status){
+        var tBody=$("#tBody");
+        var str="";
+        for (var index in studentList){
+            str+="<tr><td>"+studentList[index].sno+"</td>"+"<td>"+studentList[index].sname+"</td>"
+            +"<td>"+studentList[index].sex +"</td>"+"<td>"+studentList[index].bj.bjname +"</td>";
+
+            str+="<td><a href=/student/edit.html?id="+studentList[index].id+
+                "&sno=" +studentList[index].sno
+                +"&sname="+encodeURI(studentList[index].sname)
+                +"&bjid="+studentList[index].bj.id
+                +"&sex="+encodeURI(studentList[index].sex)
+                +">修改</a></td>";
+            str+="<td><a href=javascript:del("+studentList[index].id+")>删除</a></td>";
+
+        }
+        tBody.append(str)
+
+ });
+   
+  function del(stid){
+      if(confirm("确实要删除吗？")){
+          $.get("/student/delete?id="+stid,"",function(data){
+              if(data!="删除成功")
+                  alert(data);
+              location.reload();
+          });
+        }
+
+  }
+  function bjid(stid) {
+
+
+
+  }
+</script>
+</body>  
+</html>  

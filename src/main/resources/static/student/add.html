@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="utf-8" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+    <title>添加学生</title>  
+    <style>   
+      
+      
+    </style>  
+      <script src="/js/jquery-1.11.1.js"></script>
+<body> 
+
+<form id="addForm">
+输入学号:<input type="text" name="sno"/><br>
+姓名：<input type="text" name="sname"/><br>
+性别：<input type="radio" name="sex" value="男" checked/>男
+<input type="radio" name="sex" value="女"/>女
+<br>
+班级:
+<select name="bj.id" id="bjSelect">
+</select>
+<br>
+<input type="button" id="btAdd" value="添加"/>
+</form>
+<script>
+$.get("/bj/list",function(bjList,status){
+    var select=$("#bjSelect");
+    var str="";
+    for(var index in bjList){
+        str+="<option value='"+bjList[index].id+"'>"+bjList[index].bjname+"</option>";
+    }
+    select.append(str);
+
+});
+		 
+$("#btAdd").click(function(){
+    $.post("/student/add",$("#addForm").serialize(),function(data) {
+        alert(data);
+    });
+});
+</script>
+</body>  
+</html>  

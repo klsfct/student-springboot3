@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="utf-8" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+    <title>编辑学生</title>  
+    <style>       
+    </style>  
+     <script src="/js/jquery-1.11.1.js"></script>
+     <script src="/js/jquery.params.js"></script>
+<body>  
+
+<form id="updateForm">
+学号:<input type="text" name="sno" id="sno"/><br>
+姓名：<input type="text" name="sname" id="sname"/><br>
+性别：<input type="radio" name="sex" value="男" >男
+<input type="radio" name="sex" value="女">女
+<br>
+班级:
+<select name="bj.id" id="bjSelect">
+</select>
+<br>
+<input type="hidden" name="id" id="id"/>
+<input type="button" id="updateBt" value="修改"/>
+</form>
+<script>
+$("#id").val($.query.get("id"));
+$("#sno").val($.query.get("sno"));
+$("#sname").val($.query.get("sname"));
+$.get("/bj/list",function(bjList,status){
+    var select=$("#bjSelect");
+    var str="";
+    var bjid=$.query.get("bjid");
+    var sex=$.query.get("sex")
+    for(var index in bjList){
+        if(bjList[index].id==bjid){
+            str+="<option selected value='"+bjList[index].id+"'>"+bjList[index].bjname+"</option>";
+        }else{
+            str+="<option value='"+bjList[index].id+"'>"+bjList[index].bjname+"</option>";
+        }
+    }
+    if(sex.match("男")){
+        $("#a").prop("checked",true)
+    }
+    if(sex.match("女")){
+        $("#b").prop("checked",true)
+    }
+    select.append(str);
+});
+
+$("#updateBt").click(function(){
+    $.post("/student/update",$("#updateForm").serialize(),function(data){
+        alert(data);
+    });
+});
+</script>
+</body>  
+</html>  
