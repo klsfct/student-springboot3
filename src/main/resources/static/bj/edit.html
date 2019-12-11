@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="utf-8" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+    <title>编辑班级</title>  
+    <style>   
+      
+    </style>  
+      <script src="/js/jquery-1.11.1.js"></script>
+        <script src="/js/jquery.params.js"></script>
+<body>  
+<form id="updateForm" method="post">
+<input type="hidden" name="id" id="id"/>
+班级名称:<input  name="bjname" id="bjname"/>
+
+<input type="button" value="修改" id="updateBt"/>
+</form>
+<script>
+$("#id").val($.query.get("id"));
+$("#bjname").val($.query.get("bjname"));
+$("#updateBt").click(function(){
+	$.post("/bj/update",$("#updateForm").serialize(),function(data){
+		alert(data);
+	});
+});
+</script>
+</body>  
+</html>  

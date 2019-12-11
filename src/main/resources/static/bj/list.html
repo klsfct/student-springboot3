@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="utf-8" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+    <title>班级列表</title>  
+    <style> 
+    body{
+     text-align:center;
+    } 
+    table{
+     border-collapse:collapse;
+     margin:0 auto;
+    }
+    table,tr,td,th{
+     border:1px solid gray;
+    }
+    td{
+      padding:10px;
+    }
+       
+      
+    </style>  
+   
+       <script src="/js/jquery-1.11.1.js"></script>
+    
+<body>  
+
+ <table id="bjtable">
+ <thead>
+   <tr><th>班级名称</th><th>修改</th><th>删除</th></tr>
+ </thead>
+  <tbody id="tBody">
+  </tbody>
+  </table>
+
+ <a href="/bj/add.html">添加班级</a>
+ <script>
+
+$.get("/bj/list",function(bjList,status){
+    		var tBody=$("#tBody");    	
+    		var str="";
+    		 for(var index in bjList){ 
+    			 str+="<tr><td>"+bjList[index].bjname+"</td>";
+    			 str+="<td><a href=/bj/edit.html?id="+bjList[index].id+"&bjname="+bjList[index].bjname+">修改</a></td>";
+    			 str+="<td><a href=javascript:del("+bjList[index].id+")>删除</a></td>";
+    			 str+="</tr>";             
+             }                       
+    		  tBody.append(str);
+    	
+   });
+   
+  function del(bjid){
+	  if(confirm("确实要删除吗？")){
+		  $.get("/bj/delete/"+bjid,"",function(data){
+			   if(data!="删除成功")
+			    alert(data);
+			  location.reload();
+		  });
+	  }
+	  
+  }
+</script>
+</body>  
+</html>  
